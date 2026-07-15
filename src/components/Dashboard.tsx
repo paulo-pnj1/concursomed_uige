@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { Candidato, VagaMunicipio } from '../types';
 import { VAGAS_MUNICIPADOS, MUNICIPADOS_UIGE } from '../data/mockData';
+import InfoGeralConcursoPanel from './InfoGeralConcursoPanel';
 import { 
   Users, 
   CheckCircle, 
@@ -108,6 +109,9 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
           </div>
         </div>
       </section>
+
+      {/* Official General Contest Info Panel */}
+      <InfoGeralConcursoPanel />
 
       {/* Statistics Cards Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

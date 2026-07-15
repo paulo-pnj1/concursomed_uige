@@ -63,3 +63,31 @@ export interface FAQItem {
   resposta: string;
   categoria: 'Inscrição' | 'Documentos' | 'Exame' | 'Resultados';
 }
+
+export interface FaseConcurso {
+  fase: string;
+  nome: string;
+  descricao: string;
+}
+
+export interface InfoGeralConcurso {
+  tituloAviso: string;
+  entidadeOrganizadora: string;
+  diplomaLegal: string;
+  dataAberturaInscricoes: string; // ISO date
+  dataFechoInscricoes: string; // ISO date
+  dataPrevistaExame: string; // ISO date
+  dataPrevistaResultados: string; // ISO date
+  idadeMinima: number;
+  idadeMaxima: number;
+  taxaInscricao: string;
+  localSubmissao: string;
+  requisitosGerais: string[];
+  documentosExigidos: string[];
+  fasesConcurso: FaseConcurso[];
+  contactos: {
+    email: string;
+    telefone: string;
+    horario: string;
+  };
+}

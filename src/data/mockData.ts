@@ -3,7 +3,48 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FAQItem, VagaEspecialidade, VagaMunicipio, Candidato } from '../types';
+import { FAQItem, VagaEspecialidade, VagaMunicipio, Candidato, InfoGeralConcurso } from '../types';
+
+export const INFO_GERAL_CONCURSO: InfoGeralConcurso = {
+  tituloAviso: 'Aviso de Abertura de Concurso Público de Admissão ao Quadro de Pessoal Docente — Ano Lectivo 2026/2027',
+  entidadeOrganizadora: 'Governo Provincial do Uíge — Gabinete Provincial da Educação (GPE-Uíge)',
+  diplomaLegal: 'Ao abrigo do Decreto Presidencial n.º 102/20, de 1 de Abril (Estatuto da Carreira Docente) e demais legislação da Função Pública em vigor',
+  dataAberturaInscricoes: '2026-07-01',
+  dataFechoInscricoes: '2026-07-31',
+  dataPrevistaExame: '2026-08-24',
+  dataPrevistaResultados: '2026-09-05',
+  idadeMinima: 18,
+  idadeMaxima: 35,
+  taxaInscricao: 'Isento de qualquer taxa de inscrição',
+  localSubmissao: 'Submissão online através deste Portal, ou presencialmente na sede do Gabinete Provincial da Educação do Uíge',
+  requisitosGerais: [
+    'Possuir nacionalidade angolana',
+    'Ter idade compreendida entre os 18 e os 35 anos à data de encerramento das inscrições',
+    'Ser detentor de habilitação pedagógica adequada à categoria a que concorre (Médio Pedagógico, Bacharelato ou Licenciatura)',
+    'Não estar abrangido por incompatibilidades ou inibições legais para o exercício de funções públicas',
+    'Possuir capacidade física e psíquica compatível com o exercício da função docente',
+    'Idoneidade cívica e disciplinar comprovada'
+  ],
+  documentosExigidos: [
+    'Requerimento dirigido à Ministra da Educação',
+    'Fotocópia do Bilhete de Identidade (B.I.) actualizado',
+    'Fotocópia do Certificado de Habilitações Literárias',
+    'Declaração do INAAREES (obrigatória apenas para habilitações obtidas no estrangeiro)',
+    'Certificado de Registo Criminal actualizado',
+    'Atestado Médico de robustez física e perfil psíquico',
+    'Duas fotografias tipo passe recentes'
+  ],
+  fasesConcurso: [
+    { fase: '1ª Fase', nome: 'Análise Documental e de Requisitos de Admissão', descricao: 'Verificação da conformidade e completude dos documentos submetidos por cada candidato.' },
+    { fase: '2ª Fase', nome: 'Prova Escrita de Conhecimentos', descricao: 'Exame escrito de especialidade e cultura geral, de carácter eliminatório, para candidatos com candidatura validada.' },
+    { fase: '3ª Fase', nome: 'Ordenação e Homologação', descricao: 'Ordenação final por nota, publicação da lista de vencedores e homologação superior pelo Governo Provincial.' }
+  ],
+  contactos: {
+    email: 'suporte.edu@uige.gov.ao',
+    telefone: '(+244) 935 442 110',
+    horario: 'Segunda a Sexta-feira, das 8h00 às 15h30'
+  }
+};
 
 export const MUNICIPADOS_UIGE: string[] = [
   'Uíge (Sede)',
@@ -171,7 +212,7 @@ export const FAQS: FAQItem[] = [
   },
   {
     pergunta: 'Que documentos são exigidos para formalizar a candidatura?',
-    resposta: 'São exigidos os seguintes documentos: Requerimento dirigido à Ministra da Educação, Fotocópia do B.I. actualizado, Fotocópia do Certificado de Habilitações Literárias e Declaração do INAAREES (para habilitações obtidas no exterior). Todos os ficheiros devem ser legíveis e em formato PDF com tamanho máximo de 2 MB.',
+    resposta: 'São exigidos os seguintes documentos: Requerimento dirigido à Ministra da Educação, Fotocópia do B.I. actualizado, Fotocópia do Certificado de Habilitações Literárias, Declaração do INAAREES (apenas para habilitações obtidas no exterior), Certificado de Registo Criminal actualizado, Atestado Médico de robustez física e perfil psíquico, e 2 fotografias tipo passe. Todos os ficheiros devem ser legíveis e em formato PDF com tamanho máximo de 2 MB.',
     categoria: 'Documentos'
   },
   {

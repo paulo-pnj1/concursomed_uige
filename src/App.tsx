@@ -73,7 +73,7 @@ export default function App() {
               </span>
               <Bell className="w-4 h-4 text-blue-700 shrink-0" />
               <p className="font-medium leading-normal text-blue-850">
-                <strong className="text-blue-950 font-extrabold mr-1.5">[Edital Uíge]:</strong> Submissões online abertas até ao termo do calendário oficial. Candidatos excluídos dispõem de recurso de reclamação integrado.
+                <strong className="text-blue-950 font-extrabold mr-1.5">[Edital Uíge]:</strong> Submissões online abertas até dia 31/07/2026. Prova escrita prevista para 24/08/2026. Candidatos excluídos dispõem de recurso de reclamação integrado.
               </p>
             </div>
             <button 
