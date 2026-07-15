@@ -1,0 +1,6 @@
+{
+  "name": "Portal de Candidaturas - Educação Uíge",
+  "description": "Portal oficial para inscrição, consulta de vagas e acompanhamento do concurso público do Sector da Educação na Província do Uíge, Angola.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
