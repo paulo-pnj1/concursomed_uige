@@ -96,7 +96,7 @@ export default function InfoGeralConcursoPanel() {
           <ol className="space-y-2 text-xs text-slate-600 leading-relaxed">
             {info.fasesConcurso.map((f, i) => (
               <li key={i} className="bg-slate-50 border border-slate-100 rounded-lg p-2.5">
-                <span className="font-bold text-slate-800 block">{f.fase} — {f.nome}</span>
+                <span className="font-bold text-slate-800 block">{f.fase} -  {f.nome}</span>
                 <span>{f.descricao}</span>
               </li>
             ))}

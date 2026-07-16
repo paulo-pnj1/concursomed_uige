@@ -307,7 +307,7 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
             <Calculator className="w-5 h-5 text-blue-700" />
             <div>
               <h2 className="text-lg font-bold text-slate-950">Simulador de Pontuação (Estimativa)</h2>
-              <p className="text-[10px] text-slate-500 font-medium">Ferramenta estimativa e não vinculativa — confirme os critérios oficiais de avaliação junto do júri do concurso</p>
+              <p className="text-[10px] text-slate-500 font-medium">Ferramenta estimativa e não vinculativa -  confirme os critérios oficiais de avaliação junto do júri do concurso</p>
             </div>
           </div>
 

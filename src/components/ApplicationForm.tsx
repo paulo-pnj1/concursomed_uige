@@ -509,7 +509,7 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab, regime }
               <div className="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-600 leading-relaxed">
                 {escolaPretendida}
               </div>
-              <p className="text-[10px] text-slate-400">A escola concreta de colocação não é escolhida nesta fase — é definida pela Direcção Municipal da Educação após a homologação das listas finais.</p>
+              <p className="text-[10px] text-slate-400">A escola concreta de colocação não é escolhida nesta fase -  é definida pela Direcção Municipal da Educação após a homologação das listas finais.</p>
             </div>
           </div>
 
@@ -795,7 +795,7 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab, regime }
 
               <div className="space-y-1">
                 <span className="text-slate-400 font-bold block uppercase text-[9px] tracking-wide">Regime / Categoria a que Concorre</span>
-                <span className="text-xs font-bold text-slate-900">{successCandidate.regime === 'Especial' ? 'Regime Especial' : 'Regime Geral'} — {successCandidate.categoria}</span>
+                <span className="text-xs font-bold text-slate-900">{successCandidate.regime === 'Especial' ? 'Regime Especial' : 'Regime Geral'} -  {successCandidate.categoria}</span>
               </div>
 
               <div className="pt-4 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-500 font-mono">

@@ -70,7 +70,7 @@ export default function App() {
           <div className="space-y-2 max-w-sm">
             <div className="font-black text-white uppercase text-xs tracking-wide">Governo da Província do Uíge</div>
             <p className="text-blue-300 leading-relaxed">
-              Portal oficial de candidaturas aos Concursos Públicos de Ingresso Externo 2026 — Professor do Ensino Primário e Secundário e Técnico Médio de 3ª Classe do sector da Educação.
+              Portal oficial de candidaturas aos Concursos Públicos de Ingresso Externo 2026 -  Professor do Ensino Primário e Secundário e Técnico Médio de 3ª Classe do sector da Educação.
             </p>
           </div>
 

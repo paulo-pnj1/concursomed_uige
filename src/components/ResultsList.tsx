@@ -261,7 +261,7 @@ export default function ResultsList({ candidates, onUpdateCandidate, onDeleteCan
                         <span className="font-mono font-bold text-slate-500">
                           {cand.status === 'Validado' 
                             ? (cand.notaExame !== undefined ? `${cand.notaExame} Valores` : 'Falta Realizar')
-                            : '—'
+                            : '- '
                           }
                         </span>
                       )}

@@ -152,8 +152,8 @@ export default function Home({ setActiveTab }: HomeProps) {
 
           <div className="lg:col-span-2 space-y-4">
             {[
-              { letra: 'a)', nome: 'Professor - 13º Grau', desc: 'Ensino Primário e Secundário — carreira do Regime Especial', vagas: 224, pct: pct13 },
-              { letra: 'b)', nome: 'Professor - 6º Grau', desc: 'Ensino Primário e Secundário — carreira do Regime Especial', vagas: 172, pct: pct6 },
+              { letra: 'a)', nome: 'Professor - 13º Grau', desc: 'Ensino Primário e Secundário -  carreira do Regime Especial', vagas: 224, pct: pct13 },
+              { letra: 'b)', nome: 'Professor - 6º Grau', desc: 'Ensino Primário e Secundário -  carreira do Regime Especial', vagas: 172, pct: pct6 },
               { letra: 'c)', nome: 'Técnico Médio de 3ª Classe', desc: 'Carreira Geral do sector da Educação', vagas: 50, pct: pctTec }
             ].map((cat) => (
               <div key={cat.letra} className="flex items-start gap-4">
@@ -235,7 +235,7 @@ export default function Home({ setActiveTab }: HomeProps) {
           <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm flex flex-col">
             <div className="h-28 bg-gradient-to-br from-slate-700 to-slate-500"></div>
             <div className="p-6 space-y-3 flex-1 flex flex-col">
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Regime Especial — Professor do Ensino Primário e Secundário</span>
+              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Regime Especial -  Professor do Ensino Primário e Secundário</span>
               <h3 className="text-lg font-bold text-slate-900">Candidaturas para Professores</h3>
               <p className="text-xs text-slate-600 leading-relaxed flex-1">
                 Recrutamento e selecção de professores do Ensino Primário e Secundário (categorias do 13º e 6º Grau), realizado nos 23 municípios da Província do Uíge, nos termos do Despacho Nº 247/2026 e do Decreto Presidencial nº 104/11, de 23 de Maio.
@@ -257,7 +257,7 @@ export default function Home({ setActiveTab }: HomeProps) {
           <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm flex flex-col">
             <div className="h-28 bg-gradient-to-br from-emerald-700 to-emerald-400"></div>
             <div className="p-6 space-y-3 flex-1 flex flex-col">
-              <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-wider">Regime Geral — Técnico Médio de 3ª Classe</span>
+              <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-wider">Regime Geral -  Técnico Médio de 3ª Classe</span>
               <h3 className="text-lg font-bold text-slate-900">Candidaturas para a Carreira Geral</h3>
               <p className="text-xs text-slate-600 leading-relaxed flex-1">
                 Recrutamento e selecção de pessoal técnico médio de 3ª classe para o sector da Educação, realizado nos 23 municípios da Província do Uíge, nos termos do Despacho Nº 247/2026 e do Decreto Presidencial nº 112/24, de 17 de Maio.

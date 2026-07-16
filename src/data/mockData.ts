@@ -23,8 +23,8 @@ import {
 
 export const INFO_GERAL_CONCURSO: InfoGeralConcurso = {
   tituloAviso:
-    'Concurso Público de Ingresso Externo 2026 — Provimento de 396 Vagas para Professor do Ensino Primário e Secundário e 50 Vagas para Técnico Médio de 3ª Classe',
-  entidadeOrganizadora: 'Governo Provincial do Uíge — Gabinete Provincial da Educação (GPE-Uíge)',
+    'Concurso Público de Ingresso Externo 2026 -  Provimento de 396 Vagas para Professor do Ensino Primário e Secundário e 50 Vagas para Técnico Médio de 3ª Classe',
+  entidadeOrganizadora: 'Governo Provincial do Uíge -  Gabinete Provincial da Educação (GPE-Uíge)',
   diplomaLegal:
     'Despacho Nº 247/2026, do Governador Provincial do Uíge, ao abrigo do Decreto Presidencial nº 104/11, de 23 de Maio, conjugado com o Decreto Presidencial nº 112/24, de 17 de Maio, e o nº 1 do Despacho nº 752/2026, de 09 de Julho, do Ministério da Educação',
   dataAberturaInscricoes: '2026-07-15',
@@ -33,7 +33,7 @@ export const INFO_GERAL_CONCURSO: InfoGeralConcurso = {
   dataPrevistaResultados: '2026-10-14',
   idadeMinima: 18,
   idadeMaxima: 35,
-  taxaInscricao: 'Sem taxa de inscrição indicada no Despacho — confirmar eventuais encargos junto da Direcção Municipal da Educação',
+  taxaInscricao: 'Sem taxa de inscrição indicada no Despacho -  confirmar eventuais encargos junto da Direcção Municipal da Educação',
   localSubmissao: 'Candidaturas efectuadas presencialmente nas Direcções Municipais da Educação de cada município do Uíge',
   requisitosGerais: [
     'Possuir nacionalidade angolana',
@@ -92,16 +92,16 @@ export const CALENDARIO_CONCURSO: EtapaCalendario[] = [
   { ordem: 9, actividade: 'Completar os processos individuais dos candidatos admitidos', periodo: 'De 15 a 28/10/2026', tempoUtil: '10 dias' },
   { ordem: 10, actividade: 'Homologação das listas de classificação final pelo MED', periodo: 'De 29/10 a 06/11/2026', tempoUtil: '5 dias' },
   { ordem: 11, actividade: 'Emissão dos Despachos de nomeação pelo MED', periodo: 'De 09/11 a 30/11/2026', tempoUtil: '15 dias' },
-  { ordem: 12, actividade: 'Inserção no SIGFE', periodo: '—', tempoUtil: '10 dias' }
+  { ordem: 12, actividade: 'Inserção no SIGFE', periodo: '- ', tempoUtil: '10 dias' }
 ];
 
 // Composição do júri do concurso (Despacho Nº 27/2026)
 export const JURI_CONCURSO: MembroJuri[] = [
-  { nome: 'Pasi Mafuta Nova', cargo: 'Directora do Gabinete Provincial da Educação — Presidente' },
-  { nome: 'Benilde Matuvunina Quiala Gombo', cargo: 'Chefe de Departamento de Planeamento, Estatística e Recursos Humanos do GPE — Vice-Presidente' },
-  { nome: 'Tavares dos Santos Muhongo', cargo: 'Chefe de Departamento de Educação e Ensino — Vogal' },
-  { nome: 'Amâncio Paulo Neto Dembo', cargo: 'Chefe de Departamento de Gestão Administrativa do Gabinete Provincial de Recursos Humanos — Vogal' },
-  { nome: 'Afonso Makiadi dos Santos', cargo: 'Delegado Episcopal para a Educação no Uíge — Vogal' }
+  { nome: 'Pasi Mafuta Nova', cargo: 'Directora do Gabinete Provincial da Educação -  Presidente' },
+  { nome: 'Benilde Matuvunina Quiala Gombo', cargo: 'Chefe de Departamento de Planeamento, Estatística e Recursos Humanos do GPE -  Vice-Presidente' },
+  { nome: 'Tavares dos Santos Muhongo', cargo: 'Chefe de Departamento de Educação e Ensino -  Vogal' },
+  { nome: 'Amâncio Paulo Neto Dembo', cargo: 'Chefe de Departamento de Gestão Administrativa do Gabinete Provincial de Recursos Humanos -  Vogal' },
+  { nome: 'Afonso Makiadi dos Santos', cargo: 'Delegado Episcopal para a Educação no Uíge -  Vogal' }
 ];
 
 // Os 23 municípios da Província do Uíge abrangidos pelo concurso
@@ -162,7 +162,7 @@ export const ESPECIALIDADES_CURSOS = [
   'Técnico Médio (Área Geral)'
 ];
 
-// Vagas do Regime Especial — Professor do Ensino Primário e Secundário, por município
+// Vagas do Regime Especial -  Professor do Ensino Primário e Secundário, por município
 // (Mapa de Atribuição de Quotas anexo ao Despacho Nº 247/2026)
 export const VAGAS_MUNICIPADOS: VagaMunicipio[] = [
   { municipio: 'Alto Zaza', vagas13Grau: 9, vagas6Grau: 5, totalVagas: 14 },
@@ -190,7 +190,7 @@ export const VAGAS_MUNICIPADOS: VagaMunicipio[] = [
   { municipio: 'Vista Alegre', vagas13Grau: 10, vagas6Grau: 6, totalVagas: 16 }
 ];
 
-// Vagas do Regime Geral — Técnico Médio de 3ª Classe, por município
+// Vagas do Regime Geral -  Técnico Médio de 3ª Classe, por município
 export const VAGAS_TECNICO_MEDIO: VagaTecnicoMedio[] = [
   { municipio: 'Alto Zaza', vagas: 2 },
   { municipio: 'Ambuíla', vagas: 2 },
@@ -234,13 +234,13 @@ export const TOTAL_VAGAS_CONCURSO = TOTAL_VAGAS_PROFESSORES + TOTAL_VAGAS_TECNIC
 export const REGIMES_CONCURSO = [
   {
     id: 'Especial' as const,
-    nome: 'Regime Especial — Professor do Ensino Primário e Secundário',
+    nome: 'Regime Especial -  Professor do Ensino Primário e Secundário',
     vagasTotais: TOTAL_VAGAS_PROFESSORES,
     descricao: '224 vagas para o 13º Grau (Licenciatura) e 172 vagas para o 6º Grau (Médio Pedagógico), distribuídas pelos 23 municípios do Uíge.'
   },
   {
     id: 'Geral' as const,
-    nome: 'Regime Geral — Técnico Médio de 3ª Classe',
+    nome: 'Regime Geral -  Técnico Médio de 3ª Classe',
     vagasTotais: TOTAL_VAGAS_TECNICO_MEDIO,
     descricao: '50 vagas distribuídas pelos 23 municípios do Uíge para técnico médio de 3ª classe.'
   }
