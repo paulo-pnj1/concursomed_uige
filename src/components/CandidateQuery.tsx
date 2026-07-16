@@ -110,6 +110,9 @@ export default function CandidateQuery({ candidates, onUpdateCandidate }: Candid
               <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">Ficha Cadastral</span>
               <h3 className="text-lg font-bold text-slate-900 mt-1">{searchedCandidate.nomeCompleto}</h3>
               <p className="text-xs text-slate-500 mt-1">BI: <span className="font-mono text-blue-700 font-semibold">{searchedCandidate.biNumero}</span> | Código: <span className="font-mono font-semibold">{searchedCandidate.id}</span></p>
+              <span className={`inline-block mt-2 px-2.5 py-1 rounded-full text-[10px] font-bold ${searchedCandidate.regime === 'Especial' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-emerald-50 text-emerald-700 border border-emerald-100'}`}>
+                {searchedCandidate.regime === 'Especial' ? 'Regime Especial — Professor' : 'Regime Geral — Técnico Médio'}
+              </span>
             </div>
 
             {/* Application Status Badges */}

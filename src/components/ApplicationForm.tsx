@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Candidato, Regime } from '../types';
-import { MUNICIPADOS_UIGE, CATEGORIAS_CONCURSO, ESPECIALIDADES_CURSOS, REGIMES_CONCURSO } from '../data/mockData';
+import { MUNICIPADOS_UIGE, CATEGORIAS_CONCURSO, ESPECIALIDADES_CURSOS } from '../data/mockData';
 import { 
   User, 
   GraduationCap, 
@@ -21,9 +21,10 @@ import {
 interface ApplicationFormProps {
   onAddCandidate: (candidate: Candidato) => void;
   setActiveTab: (tab: string) => void;
+  regime: Regime;
 }
 
-export default function ApplicationForm({ onAddCandidate, setActiveTab }: ApplicationFormProps) {
+export default function ApplicationForm({ onAddCandidate, setActiveTab, regime }: ApplicationFormProps) {
   const [step, setStep] = useState(1);
   const [successCandidate, setSuccessCandidate] = useState<Candidato | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
@@ -40,8 +41,7 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
 
-  const [regime, setRegime] = useState<Regime>('Especial');
-  const [nivelEnsino, setNivelEnsino] = useState<'Médio Pedagógico' | 'Bacharelato' | 'Licenciatura' | 'Mestrado/Doutoramento' | 'Médio Técnico'>('Médio Pedagógico');
+  const [nivelEnsino, setNivelEnsino] = useState<'Médio Pedagógico' | 'Bacharelato' | 'Licenciatura' | 'Mestrado/Doutoramento' | 'Médio Técnico'>(regime === 'Geral' ? 'Médio Técnico' : 'Médio Pedagógico');
   const [cursoEspecialidade, setCursoEspecialidade] = useState(ESPECIALIDADES_CURSOS[0]);
   const [mediaFinal, setMediaFinal] = useState<number>(14);
   const [categoria, setCategoria] = useState('');
@@ -55,16 +55,7 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
   const [uploadedCert, setUploadedCert] = useState(false);
   const [uploadedInaarees, setUploadedInaarees] = useState(false);
 
-  // Ao mudar de regime, ajusta o nível académico e a categoria por defeito
-  useEffect(() => {
-    if (regime === 'Geral') {
-      setNivelEnsino('Médio Técnico');
-    } else if (nivelEnsino === 'Médio Técnico') {
-      setNivelEnsino('Médio Pedagógico');
-    }
-  }, [regime]);
-
-  // Filter categories when regime or academic level changes
+  // Filter categories when academic level changes (regime é fixo para esta instância do formulário)
   useEffect(() => {
     const compatible = CATEGORIAS_CONCURSO.find(c => {
       if (c.regime !== regime) return false;
@@ -180,8 +171,7 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
     setNif('');
     setTelefone('');
     setEmail('');
-    setRegime('Especial');
-    setNivelEnsino('Médio Pedagógico');
+    setNivelEnsino(regime === 'Geral' ? 'Médio Técnico' : 'Médio Pedagógico');
     setCursoEspecialidade(ESPECIALIDADES_CURSOS[0]);
     setMediaFinal(14);
     setUploadedRequerimento(false);
@@ -392,25 +382,13 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
             <h3 className="text-base font-bold text-slate-800">Formação Académica e Habilitações</h3>
           </div>
 
-          <div className="sm:col-span-2 space-y-2 p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
-            <label className="text-xs font-bold text-slate-700">Regime do Concurso *</label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {REGIMES_CONCURSO.map((r) => (
-                <button
-                  key={r.id}
-                  type="button"
-                  onClick={() => setRegime(r.id)}
-                  className={`text-left px-4 py-3 rounded-xl border transition-all text-xs ${
-                    regime === r.id
-                      ? 'border-blue-700 bg-white shadow-sm ring-1 ring-blue-700/30'
-                      : 'border-slate-200 bg-white/60 hover:border-slate-300'
-                  }`}
-                >
-                  <span className="font-bold text-slate-900 block">{r.nome}</span>
-                  <span className="text-[10px] text-slate-500 block mt-1">{r.vagasTotais} vagas — {r.descricao}</span>
-                </button>
-              ))}
-            </div>
+          <div className={`sm:col-span-2 flex items-center gap-3 p-4 rounded-xl border ${regime === 'Especial' ? 'bg-blue-50/50 border-blue-100' : 'bg-emerald-50/50 border-emerald-100'}`}>
+            <span className={`px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wide ${regime === 'Especial' ? 'bg-blue-700 text-white' : 'bg-emerald-700 text-white'}`}>
+              {regime === 'Especial' ? 'Regime Especial' : 'Regime Geral'}
+            </span>
+            <span className="text-xs font-semibold text-slate-700">
+              {regime === 'Especial' ? 'Candidatura para Professor do Ensino Primário e Secundário' : 'Candidatura para Técnico Médio de 3ª Classe'}
+            </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
