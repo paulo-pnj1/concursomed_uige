@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { VAGAS_MUNICIPADOS, VAGAS_ESPECIALIDADES } from '../data/mockData';
+import { VAGAS_MUNICIPADOS, VAGAS_TECNICO_MEDIO, VAGAS_CATEGORIA } from '../data/mockData';
 import { MapPin, Search, GraduationCap, ChevronDown, ChevronUp, BookOpen, AlertCircle } from 'lucide-react';
 
 export default function VacancyList() {
@@ -15,6 +15,9 @@ export default function VacancyList() {
     m.municipio.toLowerCase().includes(searchVal.toLowerCase())
   );
 
+  const tecnicoPorMunicipio = (municipio: string) =>
+    VAGAS_TECNICO_MEDIO.find((v) => v.municipio === municipio)?.vagas ?? 0;
+
   return (
     <div className="space-y-8 animate-fade-in">
       
@@ -23,7 +26,7 @@ export default function VacancyList() {
         <div className="max-w-2xl space-y-2">
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Quadro de Distribuição de Vagas (Uíge)</h2>
           <p className="text-xs text-slate-500">
-            Abaixo, consulte o número exato de vagas autorizadas para as instituições públicas de ensino da província do Uíge, distribuídas por município, nível de ensino (Primário e Secundário) e especialidades docentes.
+            Abaixo, consulte o número exacto de vagas autorizadas para o concurso, distribuídas pelos 23 municípios da província do Uíge, nos dois regimes: Regime Especial (Professor do 13º e 6º Grau) e Regime Geral (Técnico Médio de 3ª Classe).
           </p>
         </div>
 
@@ -88,35 +91,22 @@ export default function VacancyList() {
                       {/* Sub-distribution stats */}
                       <div className="grid grid-cols-3 gap-3 text-center py-2.5 bg-white rounded-xl border border-slate-200 shadow-sm">
                         <div>
-                          <span className="text-[9px] text-slate-400 uppercase font-bold block">Ensino Primário</span>
-                          <span className="text-xs font-bold text-blue-700 block mt-0.5">{mun.vagasPrimario} Vagas</span>
+                          <span className="text-[9px] text-slate-400 uppercase font-bold block">Professor 13º Grau</span>
+                          <span className="text-xs font-bold text-blue-700 block mt-0.5">{mun.vagas13Grau} Vagas</span>
                         </div>
                         <div>
-                          <span className="text-[9px] text-slate-400 uppercase font-bold block">I Ciclo Secundário</span>
-                          <span className="text-xs font-bold text-blue-600 block mt-0.5">{mun.vagasSecundarioICiclo} Vagas</span>
+                          <span className="text-[9px] text-slate-400 uppercase font-bold block">Professor 6º Grau</span>
+                          <span className="text-xs font-bold text-blue-600 block mt-0.5">{mun.vagas6Grau} Vagas</span>
                         </div>
                         <div>
-                          <span className="text-[9px] text-slate-400 uppercase font-bold block">II Ciclo Secundário</span>
-                          <span className="text-xs font-bold text-red-600 block mt-0.5">{mun.vagasSecundarioIICiclo} Vagas</span>
-                        </div>
-                      </div>
-
-                      {/* Schools listing */}
-                      <div className="space-y-1.5">
-                        <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wide">Escolas em Destaque neste Município:</span>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {mun.escolasDestacadas.map((escola, idx) => (
-                            <div key={idx} className="flex items-center space-x-2 bg-white p-2.5 rounded-lg border border-slate-200/60 text-[11px] text-slate-700 shadow-sm">
-                              <span className="w-1.5 h-1.5 rounded-full bg-blue-700"></span>
-                              <span>{escola}</span>
-                            </div>
-                          ))}
+                          <span className="text-[9px] text-slate-400 uppercase font-bold block">Técnico Médio 3ª Classe</span>
+                          <span className="text-xs font-bold text-red-600 block mt-0.5">{tecnicoPorMunicipio(mun.municipio)} Vagas</span>
                         </div>
                       </div>
 
                       <div className="flex gap-2 text-[10px] text-blue-800 bg-blue-50/50 p-2.5 rounded-lg border border-blue-200 font-semibold">
                         <AlertCircle className="w-4 h-4 shrink-0 text-blue-700" />
-                        <span>A distribuição exata de vagas em cada escola deve ser selecionada no menu de inscrição ("Candidatar-se").</span>
+                        <span>A colocação concreta (escola ou serviço) é definida pela Direcção Municipal da Educação após a homologação das listas finais.</span>
                       </div>
 
                     </div>
@@ -142,17 +132,16 @@ export default function VacancyList() {
             </div>
 
             <div className="space-y-3 divide-y divide-slate-100">
-              {VAGAS_ESPECIALIDADES.map((esp, i) => (
+              {VAGAS_CATEGORIA.map((cat, i) => (
                 <div key={i} className={`flex justify-between items-center text-xs ${i > 0 ? 'pt-3' : ''}`}>
                   <div className="space-y-0.5">
-                    <span className="font-bold text-slate-900">{esp.especialidade}</span>
+                    <span className="font-bold text-slate-900">{cat.categoria}</span>
                     <span className={`inline-block px-1.5 py-0.5 text-[8px] font-bold rounded border ${
-                      esp.nivel === 'Primário' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                      esp.nivel === 'I Ciclo' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-red-50 text-red-700 border-red-200'
-                    }`}>{esp.nivel}</span>
+                      cat.regime === 'Especial' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-amber-50 text-amber-700 border-amber-200'
+                    }`}>Regime {cat.regime}</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-bold text-slate-800">{esp.vagas}</span>
+                    <span className="font-bold text-slate-800">{cat.vagas}</span>
                     <span className="text-[10px] text-slate-400 block">Vagas</span>
                   </div>
                 </div>

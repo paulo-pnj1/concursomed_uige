@@ -4,8 +4,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Candidato } from '../types';
-import { MUNICIPADOS_UIGE, ESCOLAS_POR_MUNICIPIO, CATEGORIAS_DOCENTES, ESPECIALIDADES_CURSOS } from '../data/mockData';
+import { Candidato, Regime } from '../types';
+import { MUNICIPADOS_UIGE, CATEGORIAS_CONCURSO, ESPECIALIDADES_CURSOS, REGIMES_CONCURSO } from '../data/mockData';
 import { 
   User, 
   GraduationCap, 
@@ -40,7 +40,8 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
 
-  const [nivelEnsino, setNivelEnsino] = useState<'Médio Pedagógico' | 'Bacharelato' | 'Licenciatura' | 'Mestrado/Doutoramento'>('Médio Pedagógico');
+  const [regime, setRegime] = useState<Regime>('Especial');
+  const [nivelEnsino, setNivelEnsino] = useState<'Médio Pedagógico' | 'Bacharelato' | 'Licenciatura' | 'Mestrado/Doutoramento' | 'Médio Técnico'>('Médio Pedagógico');
   const [cursoEspecialidade, setCursoEspecialidade] = useState(ESPECIALIDADES_CURSOS[0]);
   const [mediaFinal, setMediaFinal] = useState<number>(14);
   const [categoria, setCategoria] = useState('');
@@ -54,23 +55,29 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
   const [uploadedCert, setUploadedCert] = useState(false);
   const [uploadedInaarees, setUploadedInaarees] = useState(false);
 
-  // Filter categories and schools when level or municipality changes
+  // Ao mudar de regime, ajusta o nível académico e a categoria por defeito
   useEffect(() => {
-    // Pick first compatible category
-    const compatible = CATEGORIAS_DOCENTES.find(c => {
+    if (regime === 'Geral') {
+      setNivelEnsino('Médio Técnico');
+    } else if (nivelEnsino === 'Médio Técnico') {
+      setNivelEnsino('Médio Pedagógico');
+    }
+  }, [regime]);
+
+  // Filter categories when regime or academic level changes
+  useEffect(() => {
+    const compatible = CATEGORIAS_CONCURSO.find(c => {
+      if (c.regime !== regime) return false;
+      if (regime === 'Geral') return true;
       if (nivelEnsino === 'Médio Pedagógico') return c.habilitacao === 'Médio Pedagógico';
       return c.habilitacao === 'Licenciatura'; // Licenciatura / Bacharelato / Mestrado gets Licenciatura categories
     });
     if (compatible) setCategoria(compatible.nome);
-  }, [nivelEnsino]);
+  }, [regime, nivelEnsino]);
 
+  // A escola/posto concreto só é definido pela Direcção Municipal da Educação após a homologação
   useEffect(() => {
-    const schools = ESCOLAS_POR_MUNICIPIO[municipioCandidatura] || [];
-    if (schools.length > 0) {
-      setEscolaPretendida(schools[0]);
-    } else {
-      setEscolaPretendida('Qualquer Escola do Município');
-    }
+    setEscolaPretendida(`A atribuir pela Direcção Municipal da Educação de ${municipioCandidatura}`);
   }, [municipioCandidatura]);
 
   const handleNextStep = () => {
@@ -136,6 +143,7 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
       nif: nif || undefined,
       telefone,
       email,
+      regime,
       municipioCandidatura,
       nivelEnsino,
       cursoEspecialidade,
@@ -172,6 +180,7 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
     setNif('');
     setTelefone('');
     setEmail('');
+    setRegime('Especial');
     setNivelEnsino('Médio Pedagógico');
     setCursoEspecialidade(ESPECIALIDADES_CURSOS[0]);
     setMediaFinal(14);
@@ -383,19 +392,49 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
             <h3 className="text-base font-bold text-slate-800">Formação Académica e Habilitações</h3>
           </div>
 
+          <div className="sm:col-span-2 space-y-2 p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
+            <label className="text-xs font-bold text-slate-700">Regime do Concurso *</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {REGIMES_CONCURSO.map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  onClick={() => setRegime(r.id)}
+                  className={`text-left px-4 py-3 rounded-xl border transition-all text-xs ${
+                    regime === r.id
+                      ? 'border-blue-700 bg-white shadow-sm ring-1 ring-blue-700/30'
+                      : 'border-slate-200 bg-white/60 hover:border-slate-300'
+                  }`}
+                >
+                  <span className="font-bold text-slate-900 block">{r.nome}</span>
+                  <span className="text-[10px] text-slate-500 block mt-1">{r.vagasTotais} vagas — {r.descricao}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700">Nível Académico Máximo *</label>
-              <select
-                value={nivelEnsino}
-                onChange={(e) => setNivelEnsino(e.target.value as any)}
-                className="w-full bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-xl px-4 py-3 text-sm text-slate-800 transition-colors"
-              >
-                <option value="Médio Pedagógico">Médio Pedagógico</option>
-                <option value="Bacharelato">Bacharelato</option>
-                <option value="Licenciatura">Licenciatura</option>
-                <option value="Mestrado/Doutoramento">Mestrado ou Superior</option>
-              </select>
+              {regime === 'Geral' ? (
+                <input
+                  type="text"
+                  value="Médio Técnico"
+                  disabled
+                  className="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-500 cursor-not-allowed"
+                />
+              ) : (
+                <select
+                  value={nivelEnsino}
+                  onChange={(e) => setNivelEnsino(e.target.value as any)}
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-xl px-4 py-3 text-sm text-slate-800 transition-colors"
+                >
+                  <option value="Médio Pedagógico">Médio Pedagógico</option>
+                  <option value="Bacharelato">Bacharelato</option>
+                  <option value="Licenciatura">Licenciatura</option>
+                  <option value="Mestrado/Doutoramento">Mestrado ou Superior</option>
+                </select>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -432,7 +471,9 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
                 onChange={(e) => setCategoria(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-xl px-4 py-3 text-sm text-slate-800 transition-colors"
               >
-                {CATEGORIAS_DOCENTES.filter(c => {
+                {CATEGORIAS_CONCURSO.filter(c => {
+                  if (c.regime !== regime) return false;
+                  if (regime === 'Geral') return true;
                   if (nivelEnsino === 'Médio Pedagógico') return c.habilitacao === 'Médio Pedagógico';
                   return c.habilitacao === 'Licenciatura';
                 }).map((cat) => (
@@ -486,16 +527,11 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700">Escola Pretendida *</label>
-              <select
-                value={escolaPretendida}
-                onChange={(e) => setEscolaPretendida(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-xl px-4 py-3 text-sm text-slate-800 transition-colors"
-              >
-                {ESCOLAS_POR_MUNICIPIO[municipioCandidatura]?.map((esc) => (
-                  <option key={esc} value={esc}>{esc}</option>
-                )) || <option value="Qualquer Escola">Qualquer Escola</option>}
-              </select>
+              <label className="text-xs font-bold text-slate-700">Escola / Posto de Colocação</label>
+              <div className="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-600 leading-relaxed">
+                {escolaPretendida}
+              </div>
+              <p className="text-[10px] text-slate-400">A escola concreta de colocação não é escolhida nesta fase — é definida pela Direcção Municipal da Educação após a homologação das listas finais.</p>
             </div>
           </div>
 
@@ -647,8 +683,9 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
                 <span className="text-slate-700 block">Média Final: <strong className="text-blue-700">{mediaFinal} Valores</strong></span>
               </div>
               <div>
-                <span className="text-slate-500 uppercase font-bold tracking-wider block text-[9px]">Categoria Alvo</span>
-                <span className="text-slate-700 block mt-0.5">{categoria}</span>
+                <span className="text-slate-500 uppercase font-bold tracking-wider block text-[9px]">Regime / Categoria Alvo</span>
+                <span className="text-slate-700 block mt-0.5">{regime === 'Especial' ? 'Regime Especial (Professor)' : 'Regime Geral (Técnico Médio)'}</span>
+                <span className="text-slate-700 block">{categoria}</span>
               </div>
               <div>
                 <span className="text-slate-500 uppercase font-bold tracking-wider block text-[9px]">Colocação Pretendida</span>
@@ -779,8 +816,8 @@ export default function ApplicationForm({ onAddCandidate, setActiveTab }: Applic
               </div>
 
               <div className="space-y-1">
-                <span className="text-slate-400 font-bold block uppercase text-[9px] tracking-wide">Categoria a que Concorre</span>
-                <span className="text-xs font-bold text-slate-900">{successCandidate.categoria}</span>
+                <span className="text-slate-400 font-bold block uppercase text-[9px] tracking-wide">Regime / Categoria a que Concorre</span>
+                <span className="text-xs font-bold text-slate-900">{successCandidate.regime === 'Especial' ? 'Regime Especial' : 'Regime Geral'} — {successCandidate.categoria}</span>
               </div>
 
               <div className="pt-4 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-500 font-mono">

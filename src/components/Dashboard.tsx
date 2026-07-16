@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { Candidato, VagaMunicipio } from '../types';
-import { VAGAS_MUNICIPADOS, MUNICIPADOS_UIGE } from '../data/mockData';
+import { VAGAS_MUNICIPADOS, VAGAS_TECNICO_MEDIO, MUNICIPADOS_UIGE, TOTAL_VAGAS_CONCURSO } from '../data/mockData';
 import InfoGeralConcursoPanel from './InfoGeralConcursoPanel';
 import { 
   Users, 
@@ -52,7 +52,7 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
   };
 
   // Compute dynamic stats based on current candidate list
-  const totalVacancies = VAGAS_MUNICIPADOS.reduce((acc, curr) => acc + curr.totalVagas, 0);
+  const totalVacancies = TOTAL_VAGAS_CONCURSO;
   const totalSubmissions = candidates.length;
   const validatedCount = candidates.filter(c => c.status === 'Validado').length;
   const pendingCount = candidates.filter(c => c.status === 'Pendente').length;
@@ -66,7 +66,7 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
   }, {} as Record<string, number>);
 
   // Find municipality with most candidates
-  let busiestMunicipio = 'Uíge (Sede)';
+  let busiestMunicipio = 'Uíge';
   let maxCount = 0;
   Object.entries(candidatesByMunicipio).forEach(([mun, count]) => {
     if (count > maxCount) {
@@ -129,7 +129,7 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
           </div>
           <div className="mt-4 pt-4 border-t border-slate-100 flex items-center text-xs text-slate-500">
             <MapPin className="w-3.5 h-3.5 mr-1.5 text-blue-600" />
-            <span>Distribuídas pelos 16 municípios</span>
+            <span>Distribuídas pelos 23 municípios (396 Professores + 50 Técnico Médio)</span>
           </div>
         </div>
 
@@ -206,9 +206,9 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
                 01
               </div>
               <div className="space-y-1">
-                <h4 className="text-sm font-bold text-slate-900">Submissão Online</h4>
+                <h4 className="text-sm font-bold text-slate-900">Submissão nas Direcções Municipais</h4>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  As candidaturas devem ser formalizadas obrigatoriamente através deste portal electrónico. Certifique-se de preencher todos os dados em perfeita conformidade com o seu Bilhete de Identidade.
+                  Conforme o Despacho Nº 247/2026, as candidaturas devem ser efectuadas nas Direcções Municipais da Educação do respectivo município. Este portal serve para simular, preparar e conferir a sua candidatura antes da entrega presencial.
                 </p>
               </div>
             </div>
@@ -306,8 +306,8 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
           <div className="flex items-center space-x-3 border-b border-slate-100 pb-4">
             <Calculator className="w-5 h-5 text-blue-700" />
             <div>
-              <h2 className="text-lg font-bold text-slate-950">Simulador de Pontuação (MED / GPEN)</h2>
-              <p className="text-[10px] text-slate-500 font-medium">Decreto Presidencial nº 102/20 - Critérios Oficiais de Avaliação Curricular</p>
+              <h2 className="text-lg font-bold text-slate-950">Simulador de Pontuação (Estimativa)</h2>
+              <p className="text-[10px] text-slate-500 font-medium">Ferramenta estimativa e não vinculativa — confirme os critérios oficiais de avaliação junto do júri do concurso</p>
             </div>
           </div>
 
@@ -435,10 +435,10 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
 
           <div className="space-y-3.5">
             {[
-              { id: 'edital', name: 'Edital Geral de Abertura do Concurso.pdf', size: '640 KB', icon: FileText },
-              { id: 'decreto', name: 'Decreto Presidencial nº 102_20_Regulamento.pdf', size: '1.2 MB', icon: ShieldAlert },
-              { id: 'guia', name: 'Guia_Passo_a_Passo_Candidatura_GPEN.pdf', size: '480 KB', icon: HelpCircle },
-              { id: 'vagas', name: 'Quadro_Vagas_Uige_Escolas_Homologadas.xlsx', size: '2.1 MB', icon: MapPin }
+              { id: 'despacho247', name: 'Despacho_247_2026_Abertura_Concurso.pdf', size: '640 KB', icon: FileText },
+              { id: 'despacho27', name: 'Despacho_27_2026_Composicao_Juri.pdf', size: '210 KB', icon: ShieldAlert },
+              { id: 'calendario', name: 'Calendarizacao_Etapas_Concurso_2026.pdf', size: '180 KB', icon: HelpCircle },
+              { id: 'vagas', name: 'Mapa_Quotas_Professores_Tecnico_Medio_Uige.pdf', size: '320 KB', icon: MapPin }
             ].map((doc) => {
               const isThisDownloading = downloadingFile === doc.id;
               const isThisSuccess = downloadSuccess === doc.id;
@@ -497,37 +497,37 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
         {/* Custom SVG Bar Chart */}
         <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6">
           <div className="space-y-4">
-            {VAGAS_MUNICIPADOS.slice(0, 7).map((mun, i) => {
-              // Calculate percentage of vacancies based on largest (Uíge capital with 100)
-              const percentage = (mun.totalVagas / 100) * 100;
+            {[...VAGAS_MUNICIPADOS].sort((a, b) => b.totalVagas - a.totalVagas).slice(0, 7).map((mun) => {
+              const tecnico = VAGAS_TECNICO_MEDIO.find((v) => v.municipio === mun.municipio)?.vagas ?? 0;
+              const maiorTotal = Math.max(...VAGAS_MUNICIPADOS.map((m) => m.totalVagas));
               return (
                 <div key={mun.municipio} className="space-y-1.5">
                   <div className="flex justify-between items-center text-xs">
                     <span className="font-bold text-slate-800">{mun.municipio}</span>
                     <div className="space-x-3 text-slate-600">
-                      <span className="font-bold text-slate-900">{mun.totalVagas} Vagas</span>
+                      <span className="font-bold text-slate-900">{mun.totalVagas} Vagas (Professor)</span>
                       <span className="text-slate-300">|</span>
-                      <span>Primário: {mun.vagasPrimario} / Secundário: {mun.vagasSecundarioICiclo + mun.vagasSecundarioIICiclo}</span>
+                      <span>13º Grau: {mun.vagas13Grau} / 6º Grau: {mun.vagas6Grau} / Téc. Médio: {tecnico}</span>
                     </div>
                   </div>
                   <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden flex">
-                    {/* Primary school vacancies segment */}
+                    {/* Professor 13º Grau segment */}
                     <div 
                       className="bg-blue-600 h-full transition-all duration-1000" 
-                      style={{ width: `${(mun.vagasPrimario / 100) * 100}%` }}
-                      title="Ensino Primário"
+                      style={{ width: `${(mun.vagas13Grau / maiorTotal) * 100}%` }}
+                      title="Professor do 13º Grau"
                     ></div>
-                    {/* Secondary I Cycle vacancies segment */}
+                    {/* Professor 6º Grau segment */}
                     <div 
                       className="bg-red-500 h-full transition-all duration-1000" 
-                      style={{ width: `${(mun.vagasSecundarioICiclo / 100) * 100}%` }}
-                      title="Ensino Secundário I Ciclo"
+                      style={{ width: `${(mun.vagas6Grau / maiorTotal) * 100}%` }}
+                      title="Professor do 6º Grau"
                     ></div>
-                    {/* Secondary II Cycle vacancies segment */}
+                    {/* Técnico Médio segment */}
                     <div 
                       className="bg-amber-500 h-full transition-all duration-1000" 
-                      style={{ width: `${(mun.vagasSecundarioIICiclo / 100) * 100}%` }}
-                      title="Ensino Secundário II Ciclo"
+                      style={{ width: `${(tecnico / maiorTotal) * 100}%` }}
+                      title="Técnico Médio de 3ª Classe"
                     ></div>
                   </div>
                 </div>
@@ -539,15 +539,15 @@ export default function Dashboard({ candidates, setActiveTab }: DashboardProps) 
           <div className="mt-6 flex flex-wrap gap-4 justify-center text-xs text-slate-500 pt-4 border-t border-slate-200">
             <div className="flex items-center space-x-1.5">
               <span className="inline-block w-3.5 h-3.5 bg-blue-600 rounded"></span>
-              <span>Vagas Ensino Primário</span>
+              <span>Professor do 13º Grau</span>
             </div>
             <div className="flex items-center space-x-1.5">
               <span className="inline-block w-3.5 h-3.5 bg-red-500 rounded"></span>
-              <span>Vagas I Ciclo Secundário</span>
+              <span>Professor do 6º Grau</span>
             </div>
             <div className="flex items-center space-x-1.5">
               <span className="inline-block w-3.5 h-3.5 bg-amber-500 rounded"></span>
-              <span>Vagas II Ciclo Secundário</span>
+              <span>Técnico Médio de 3ª Classe</span>
             </div>
           </div>
         </div>
